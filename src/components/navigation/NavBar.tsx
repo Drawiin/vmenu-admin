@@ -12,7 +12,8 @@ import {
 import {
   MenuBookOutlined,
   Category,
-  TableChartOutlined
+  TableChartOutlined,
+  Home
 } from '@material-ui/icons'
 import NavItem, { NavItemProps } from './NavItem'
 
@@ -22,6 +23,11 @@ const user = {
 }
 
 const items: Array<NavItemProps> = [
+  {
+    href: '/',
+    icon: Home,
+    title: 'Inicio'
+  },
   {
     href: '/categorys',
     icon: Category,
