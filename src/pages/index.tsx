@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles, Typography } from '@material-ui/core'
-import ProductsList from '../components/products/ProductsList'
 import ProductToolbar from '../components/products/ProductsToolBar'
 import Head from 'next/head'
-import Product from '../entities/Product'
-import { getProducts } from '../repository/ProductsRepository'
-import Link from 'next/link'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,10 +17,9 @@ const Home: React.FC = () => {
   return (
     <Box className={classes.root}>
       <Head>
-        <title>Produtos</title>
+        <title>Inicio</title>
       </Head>
       <Container maxWidth={false}>
-        <ProductToolbar handleActionClicked={() => {}} />
         <Box
           mt={3}
           display="flex"
@@ -33,15 +27,15 @@ const Home: React.FC = () => {
           alignItems="center"
           alignContent="center"
         ></Box>
-        <Typography variant="h1" align="center">
+        <Typography variant="h4" align="center">
           Bem Vindo Ao Seu Painel de Administrador
         </Typography>
-        <Typography variant="h6" align="center">
-          use A Barra Lateral Para Navegar
+        <Typography variant="h6" align="center" color="textSecondary">
+          Use A Barra Lateral Para Navegar
         </Typography>
       </Container>
     </Box>
   )
 }
 
-export default Products
+export default Home
