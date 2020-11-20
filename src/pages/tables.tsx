@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles } from '@material-ui/core'
-import ProductsList from '../components/products/ProductsList'
-import ProductToolbar from '../components/products/ProductsToolBar'
+import ProductsList from '../components/tables/TablesList'
+import ClientToolbar from '../components/tables/TablesToolbar'
 import Head from 'next/head'
 import Product from '../entities/Product'
 import { getProducts } from '../repository/ProductsRepository'
@@ -29,10 +29,10 @@ const Products: React.FC = () => {
   return (
     <Box className={classes.root}>
       <Head>
-        <title>Produtos</title>
+        <title>Mesas</title>
       </Head>
       <Container maxWidth={false}>
-        <ProductToolbar handleActionClicked={() => {}} />
+        <ClientToolbar handleActionClicked={() => {}} />
         <Box mt={3}>
           <ProductsList products={products} />
         </Box>

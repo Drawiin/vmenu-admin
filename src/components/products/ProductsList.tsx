@@ -12,8 +12,8 @@ import {
   TableRow,
   makeStyles
 } from '@material-ui/core'
-import Product from '../entities/Product'
-import { currencyConvertion } from '../utils/Conversions'
+import Product from '../../entities/Product'
+import { currencyConvertion } from '../../utils/Conversions'
 
 const useStyles = makeStyles(theme => ({
   root: {},

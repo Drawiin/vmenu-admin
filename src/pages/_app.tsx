@@ -3,7 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import { useEffect } from 'react'
-import DashboardLayout from '../components/DashboardLayout'
+import DashboardLayout from '../Layouts/DashboardLayout'
 import { SWRConfig } from 'swr'
 import ApiClient from '../services/ApiClient'
 

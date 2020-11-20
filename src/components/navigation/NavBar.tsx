@@ -10,56 +10,32 @@ import {
   makeStyles
 } from '@material-ui/core'
 import {
-  AlertCircle as AlertCircleIcon,
-  BarChart as BarChartIcon,
-  Lock as LockIcon,
-  ShoppingBag as ShoppingBagIcon,
-  User as UserIcon,
-  UserPlus as UserPlusIcon,
-  Users as UsersIcon
-} from 'react-feather'
-import NavItem from './NavItem'
+  MenuBookOutlined,
+  Category,
+  TableChartOutlined
+} from '@material-ui/icons'
+import NavItem, { NavItemProps } from './NavItem'
 
 const user = {
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith'
+  jobTitle: 'Admin',
+  name: 'Restaurante Miguéis'
 }
 
-const items = [
+const items: Array<NavItemProps> = [
   {
-    href: '/app/dashboard',
-    icon: BarChartIcon,
-    title: 'Dashboard'
+    href: '/categorys',
+    icon: Category,
+    title: 'Categorias'
   },
   {
-    href: '/app/customers',
-    icon: UsersIcon,
-    title: 'Customers'
+    href: '/products',
+    icon: MenuBookOutlined,
+    title: 'Produtos'
   },
   {
-    href: '/app/products',
-    icon: ShoppingBagIcon,
-    title: 'Products'
-  },
-  {
-    href: '/app/account',
-    icon: UserIcon,
-    title: 'Não Sei'
-  },
-  {
-    href: '/login',
-    icon: LockIcon,
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: UserPlusIcon,
-    title: 'Register'
-  },
-  {
-    href: '/404',
-    icon: AlertCircleIcon,
-    title: 'Error'
+    href: '/tables',
+    icon: TableChartOutlined,
+    title: 'Mesas'
   }
 ]
 

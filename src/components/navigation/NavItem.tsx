@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, ListItem, makeStyles } from '@material-ui/core'
-import { Icon } from 'react-feather'
+import { AccountCircle, SvgIconComponent } from '@material-ui/icons'
+
 import { Theme } from '@material-ui/core/styles/createMuiTheme'
 import Link from 'next/link'
 
@@ -36,9 +37,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-interface NavItemProps {
+export interface NavItemProps {
   href: string
-  icon: Icon
+  icon: SvgIconComponent
   title: string
 }
 
@@ -49,7 +50,7 @@ const NavItem: React.FC<NavItemProps> = ({ href, icon: Icon, title }) => {
     <ListItem disableGutters>
       <Link href={href}>
         <Button className={classes.button}>
-          {Icon && <Icon className={classes.icon} size="20" />}
+          {Icon && <Icon className={classes.icon} fontSize="small" />}
           <span className={classes.title}>{title}</span>
         </Button>
       </Link>

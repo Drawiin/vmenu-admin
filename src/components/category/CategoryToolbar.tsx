@@ -6,31 +6,24 @@ import {
   CardContent,
   TextField,
   InputAdornment,
-  SvgIcon,
-  makeStyles
+  SvgIcon
 } from '@material-ui/core'
 import { Search as SearchIcon } from 'react-feather'
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  importButton: {
-    marginRight: theme.spacing(1)
-  },
-  exportButton: {
-    marginRight: theme.spacing(1)
-  }
-}))
+interface ToolbarProps {
+  handleActionClicked: () => void
+}
 
-const Toolbar: React.FC = () => {
-  const classes = useStyles()
-
+const CategoryToolbar: React.FC<ToolbarProps> = ({ handleActionClicked }) => {
   return (
     <>
       <Box display="flex" justifyContent="flex-end">
-        <Button className={classes.importButton}>Import</Button>
-        <Button className={classes.exportButton}>Export</Button>
-        <Button color="primary" variant="contained">
-          Add customer
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={handleActionClicked}
+        >
+          Nova categoria
         </Button>
       </Box>
       <Box mt={3}>
@@ -48,7 +41,7 @@ const Toolbar: React.FC = () => {
                     </InputAdornment>
                   )
                 }}
-                placeholder="Search customer"
+                placeholder="Buscar categorias"
                 variant="outlined"
               />
             </Box>
@@ -59,4 +52,4 @@ const Toolbar: React.FC = () => {
   )
 }
 
-export default Toolbar
+export default CategoryToolbar
