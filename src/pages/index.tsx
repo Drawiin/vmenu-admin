@@ -1,3 +1,10 @@
+import Link from 'next/link'
+import Button from '@material-ui/core/Button'
+
 export default function Home(): JSX.Element {
-  return <h1>Bem vindo a sua central de pedidos</h1>
+  return (
+    <Link href="Products">
+      <Button>Ir para produtos</Button>
+    </Link>
+  )
 }
