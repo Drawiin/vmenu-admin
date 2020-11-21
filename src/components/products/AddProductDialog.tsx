@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -11,6 +11,7 @@ import Slide from '@material-ui/core/Slide'
 import { TransitionProps } from '@material-ui/core/transitions'
 import DialogProps from '../../entities/DialogProps'
 import Select from '@material-ui/core/Select'
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import MenuItem from '@material-ui/core/MenuItem'
 import { Box } from '@material-ui/core'
 import FormControl from '@material-ui/core/FormControl'
@@ -52,6 +53,8 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState<number>()
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([])
+  const [images, setImages] = useState<File[]>([])
+  const [previewImages, setPreviewImages] = useState<string[]>([])
   const classes = useStyles()
 
   const loadCategorys = () => {
@@ -76,10 +79,27 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
       description,
       price,
       quantity: 1,
-      category
+      category,
+      photos: images
     }
     handleSuccess(data)
     handleClose()
+  }
+
+  function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
+    if (!event.target.files) {
+      return
+    }
+
+    const selectedImages = Array.from(event.target.files)
+
+    setImages([...images, ...selectedImages])
+
+    const selectedImagesPreview = selectedImages.map(image =>
+      URL.createObjectURL(image)
+    )
+
+    setPreviewImages([...previewImages, ...selectedImagesPreview])
   }
 
   return (
@@ -98,6 +118,57 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
         <DialogContentText id="alert-dialog-slide-description">
           Entre com os dados da nova categoria de produtos.
         </DialogContentText>
+        {/* oi */}
+        <Box>
+          <InputLabel htmlFor="images">Imagens</InputLabel>
+
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(5, 1fr)"
+            gridGap={16}
+            marginTop={2}
+          >
+            {previewImages.map(image => (
+              <img
+                key={image}
+                src={image}
+                alt={name}
+                style={{
+                  width: '100%',
+                  height: 96,
+                  objectFit: 'cover',
+                  borderRadius: '50%'
+                }}
+              />
+            ))}
+
+            <label
+              htmlFor="image[]"
+              className="new-image"
+              style={{
+                width: '100%',
+                minWidth: 96,
+                height: 96,
+                backgroundColor: '#fff',
+                border: '1px dashed #FF2F07',
+                borderRadius: '50%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <AddPhotoAlternateIcon fontSize="large" color="primary" />
+            </label>
+          </Box>
+          <input
+            multiple
+            onChange={handleSelectImages}
+            type="file"
+            id="image[]"
+            style={{ display: 'none' }}
+          />
+        </Box>
+        {/* oi */}
         <TextField
           autoFocus
           margin="dense"
