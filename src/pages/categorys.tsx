@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Products: React.FC = () => {
+const Categorys: React.FC = () => {
   const [open, setOpen] = React.useState(false)
   const [categorys, setCategorys] = useState<Array<Category>>([])
   const classes = useStyles()
@@ -64,4 +64,4 @@ const Products: React.FC = () => {
   )
 }
 
-export default Products
+export default Categorys
