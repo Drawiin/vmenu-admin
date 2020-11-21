@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Products: React.FC = () => {
+const Tables: React.FC = () => {
   const classes = useStyles()
   const [products, setProducts] = useState<Array<Product>>([])
 
@@ -41,4 +41,4 @@ const Products: React.FC = () => {
   )
 }
 
-export default Products
+export default Tables
