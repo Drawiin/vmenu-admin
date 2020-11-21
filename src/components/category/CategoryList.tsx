@@ -31,7 +31,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categorys }) => {
     <Card>
       <PerfectScrollbar>
         <Box minWidth={1050}>
-          <Table>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 <TableCell>Id</TableCell>
@@ -40,13 +40,15 @@ const CategoryList: React.FC<CategoryListProps> = ({ categorys }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {categorys.slice(0, limit).map(category => (
-                <TableRow hover key={category.id}>
-                  <TableCell>{category.id}</TableCell>
-                  <TableCell>{category.name}</TableCell>
-                  <TableCell align="right">actions</TableCell>
-                </TableRow>
-              ))}
+              {categorys
+                .slice(page * limit, page * limit + limit)
+                .map(category => (
+                  <TableRow hover key={category.id}>
+                    <TableCell>{category.id}</TableCell>
+                    <TableCell>{category.name}</TableCell>
+                    <TableCell align="right">actions</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>

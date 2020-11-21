@@ -55,23 +55,25 @@ const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {products.slice(0, limit).map(product => (
-                <TableRow hover key={product.id}>
-                  <TableCell>{product.id}</TableCell>
-                  <TableCell>
-                    <Box alignItems="center" display="flex">
-                      <Avatar
-                        className={classes.avatar}
-                        src={product.images[0]?.url ?? ''}
-                      />
-                    </Box>
-                  </TableCell>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.description}</TableCell>
-                  <TableCell>{currencyConvertion(product.price)}</TableCell>
-                  <TableCell>actions</TableCell>
-                </TableRow>
-              ))}
+              {products
+                .slice(page * limit, page * limit + limit)
+                .map(product => (
+                  <TableRow hover key={product.id}>
+                    <TableCell>{product.id}</TableCell>
+                    <TableCell>
+                      <Box alignItems="center" display="flex">
+                        <Avatar
+                          className={classes.avatar}
+                          src={product.images[0]?.url ?? ''}
+                        />
+                      </Box>
+                    </TableCell>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.description}</TableCell>
+                    <TableCell>{currencyConvertion(product.price)}</TableCell>
+                    <TableCell>actions</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </Box>
