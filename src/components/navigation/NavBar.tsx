@@ -34,7 +34,7 @@ const items: Array<NavItemProps> = [
     title: 'Categorias'
   },
   {
-    href: '/products',
+    href: '/product',
     icon: MenuBookOutlined,
     title: 'Produtos'
   },
