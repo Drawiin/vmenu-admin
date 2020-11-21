@@ -4,7 +4,12 @@ import ProductsList from '../components/products/ProductsList'
 import ProductToolbar from '../components/products/ProductsToolBar'
 import Head from 'next/head'
 import Product from '../entities/Product'
-import { getProducts } from '../repository/ProductsRepository'
+import {
+  getProducts,
+  createProducts,
+  CreateProductRequest
+} from '../repository/ProductsRepository'
+import AddProductDialog from '../components/products/AddProductDialog'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,15 +21,32 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Products: React.FC = () => {
+  const [open, setOpen] = React.useState(false)
   const classes = useStyles()
   const [products, setProducts] = useState<Array<Product>>([])
 
-  useEffect(() => {
+  const loadProducts = () => {
     getProducts().then(newProducts => {
       console.log(newProducts)
       setProducts([...products, ...newProducts])
     })
+  }
+
+  useEffect(() => {
+    loadProducts()
   }, [])
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const onSave = (product: CreateProductRequest) => {
+    createProducts(product).then(() => loadProducts())
+  }
 
   return (
     <Box className={classes.root}>
@@ -32,11 +54,16 @@ const Products: React.FC = () => {
         <title>Produtos</title>
       </Head>
       <Container maxWidth={false}>
-        <ProductToolbar handleActionClicked={() => {}} />
+        <ProductToolbar handleActionClicked={handleClickOpen} />
         <Box mt={3}>
           <ProductsList products={products} />
         </Box>
       </Container>
+      <AddProductDialog
+        open={open}
+        handleClose={handleClose}
+        handleSuccess={onSave}
+      />
     </Box>
   )
 }
