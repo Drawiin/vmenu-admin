@@ -14,6 +14,8 @@ import {
 } from '@material-ui/core'
 import Product from '../../entities/Product'
 import { currencyConvertion } from '../../utils/Conversions'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -24,9 +26,10 @@ const useStyles = makeStyles(theme => ({
 
 interface ProductsListProps {
   products: Array<Product>
+  onDelete: (id: number) => void
 }
 
-const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
+const ProductsList: React.FC<ProductsListProps> = ({ products, onDelete }) => {
   const classes = useStyles()
   const [limit, setLimit] = useState(5)
   const [page, setPage] = useState(0)
@@ -71,7 +74,17 @@ const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.description}</TableCell>
                     <TableCell>{currencyConvertion(product.price)}</TableCell>
-                    <TableCell>actions</TableCell>
+                    <TableCell>
+                      {' '}
+                      <IconButton
+                        color="primary"
+                        aria-label="delete"
+                        size="medium"
+                        onClick={() => onDelete(product.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

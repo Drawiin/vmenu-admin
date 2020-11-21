@@ -10,6 +10,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined'
 import InputIcon from '@material-ui/icons/Input'
+import Image from 'next/image'
 
 interface TopBarProps {
   onMobileNavOpen: () => void
@@ -21,6 +22,7 @@ const TopBar: React.FC<TopBarProps> = ({ onMobileNavOpen }) => {
   return (
     <AppBar elevation={0}>
       <Toolbar>
+        <Image src="/logo.png" height="34" width="64" />
         <Box flexGrow={1} />
         <Hidden mdDown>
           <IconButton color="inherit">

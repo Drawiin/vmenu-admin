@@ -7,7 +7,8 @@ import Product from '../entities/Product'
 import {
   getProducts,
   createProducts,
-  CreateProductRequest
+  CreateProductRequest,
+  deleteProducts
 } from '../repository/ProductsRepository'
 import AddProductDialog from '../components/products/AddProductDialog'
 
@@ -48,6 +49,10 @@ const Products: React.FC = () => {
     createProducts(product).then(() => loadProducts())
   }
 
+  const onDelete = (id: number) => {
+    deleteProducts(id).then(() => loadProducts())
+  }
+
   return (
     <Box className={classes.root}>
       <Head>
@@ -56,7 +61,7 @@ const Products: React.FC = () => {
       <Container maxWidth={false}>
         <ProductToolbar handleActionClicked={handleClickOpen} />
         <Box mt={3}>
-          <ProductsList products={products} />
+          <ProductsList products={products} onDelete={onDelete} />
         </Box>
       </Container>
       <AddProductDialog

@@ -52,6 +52,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ categorys, onDelete }) => {
                     <TableCell>{category.name}</TableCell>
                     <TableCell align="right">
                       <IconButton
+                        color="primary"
                         aria-label="delete"
                         size="medium"
                         onClick={() => onDelete(category.id)}
