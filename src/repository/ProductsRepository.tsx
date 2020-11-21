@@ -14,6 +14,11 @@ export async function getProducts(): Promise<Array<Product>> {
   return response.data
 }
 
+export async function showProducts(id: number): Promise<Product> {
+  const response = await ApiClient.get<Product>(`products/${id}`)
+  return response.data
+}
+
 export async function createProducts(
   product: CreateProductRequest
 ): Promise<Product> {
@@ -30,5 +35,10 @@ export async function createProducts(
 
   const response = await ApiClient.post<Product>('products', data)
 
+  return response.data
+}
+
+export async function deleteProducts(id: number): Promise<void> {
+  const response = await ApiClient.delete<void>(`products/${id}`)
   return response.data
 }

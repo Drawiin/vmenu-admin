@@ -3,7 +3,11 @@ import { Box, Container, makeStyles } from '@material-ui/core'
 import CategoryList from '../components/category/CategoryList'
 import CategoryToolbar from '../components/category/CategoryToolbar'
 import Head from 'next/head'
-import { getCategorys, createCategory } from '../repository/CategorysRepository'
+import {
+  getCategorys,
+  createCategory,
+  deletCategory
+} from '../repository/CategorysRepository'
 import AddCategoryDialog from '../components/category/AddCategoryDialog'
 import Category from '../entities/Category'
 
@@ -17,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Categorys: React.FC = () => {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
   const [categorys, setCategorys] = useState<Array<Category>>([])
   const classes = useStyles()
 
@@ -40,6 +44,10 @@ const Categorys: React.FC = () => {
     createCategory(name).then(() => loadCategorys())
   }
 
+  const onDelete = (id: number) => {
+    deletCategory(id).then(() => loadCategorys())
+  }
+
   useEffect(() => {
     loadCategorys()
   }, [])
@@ -52,7 +60,7 @@ const Categorys: React.FC = () => {
       <Container maxWidth={false}>
         <CategoryToolbar handleActionClicked={handleClickOpen} />
         <Box mt={3}>
-          <CategoryList categorys={categorys} />
+          <CategoryList categorys={categorys} onDelete={onDelete} />
         </Box>
       </Container>
       <AddCategoryDialog
