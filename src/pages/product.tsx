@@ -28,7 +28,7 @@ const Products: React.FC = () => {
   const loadProducts = () => {
     getProducts().then(newProducts => {
       console.log(newProducts)
-      setProducts([...products, ...newProducts])
+      setProducts(newProducts)
     })
   }
 
