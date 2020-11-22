@@ -20,6 +20,7 @@ import InputLabel from '@material-ui/core/InputLabel'
 import { getCategorys } from '../../repository/CategorysRepository'
 import Category from '../../entities/Category'
 import { CreateProductRequest } from '../../repository/ProductsRepository'
+import { Height } from '@material-ui/icons'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -38,10 +39,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2)
     },
     deletButton: {
-      backgroundColor: theme.palette.primary.main
+      backgroundColor: theme.palette.primary.main,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      minHeight: 20,
+      height: 20,
+      width: 20
     },
     deletIcon: {
-      color: theme.palette.primary.contrastText
+      height: 15,
+      width: 15
     }
   })
 )
@@ -185,25 +193,14 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
                     borderRadius: '50%'
                   }}
                 />
-                <Box
-                  onClick={() => handleDeletImage(index)}
-                  position="absolute"
-                  top={0}
-                  right={0}
+
+                <Fab
                   className={classes.deletButton}
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  borderRadius={20}
-                  padding={0.25}
-                  component="button"
-                  border="none"
+                  color="primary"
+                  onClick={() => handleDeletImage(index)}
                 >
-                  <CloseOutlined
-                    fontSize="small"
-                    className={classes.deletIcon}
-                  />
-                </Box>
+                  <CloseOutlined className={classes.deletIcon} />
+                </Fab>
               </Box>
             ))}
 
@@ -244,7 +241,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
           onChange={e => setName(e.target.value)}
           fullWidth
         />
-        <Box display="flex">
+        <Box display="flex" alignItems="center">
           <TextField
             autoFocus
             margin="dense"
