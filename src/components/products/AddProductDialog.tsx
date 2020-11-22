@@ -13,7 +13,8 @@ import DialogProps from '../../entities/DialogProps'
 import Select from '@material-ui/core/Select'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import MenuItem from '@material-ui/core/MenuItem'
-import { Box } from '@material-ui/core'
+import { Box, Fab } from '@material-ui/core'
+import CloseOutlined from '@material-ui/icons/CloseOutlined'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import { getCategorys } from '../../repository/CategorysRepository'
@@ -35,6 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     selectEmpty: {
       marginTop: theme.spacing(2)
+    },
+    deletButton: {
+      backgroundColor: theme.palette.primary.main
+    },
+    deletIcon: {
+      color: theme.palette.primary.contrastText
     }
   })
 )
@@ -49,7 +56,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   handleSuccess
 }) => {
   const [name, setName] = useState('')
-  const [price, setPrice] = useState<number>()
+  const [price, setPrice] = useState<number>(0)
   const [description, setDescription] = useState('')
   const [category, setCategory] = useState<number>()
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([])
@@ -73,7 +80,24 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
     setCategory(event.target.value)
   }
 
+  const clearInput = () => {
+    setName('')
+    setPrice(0)
+    setCategory(null)
+    setImages([])
+    setPreviewImages([])
+  }
+
+  const validForm = () => {
+    const validations = [name.length > 0, description.length > 0, category]
+    return validations.reduce((a, b) => a && b)
+  }
+
   const onSave = () => {
+    if (!validForm()) {
+      alert('Dados incorretos invalido')
+      return
+    }
     const data: CreateProductRequest = {
       name,
       description,
@@ -82,7 +106,9 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
       category,
       photos: images
     }
+
     handleSuccess(data)
+    clearInput()
     handleClose()
   }
 
@@ -100,6 +126,18 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
     )
 
     setPreviewImages([...previewImages, ...selectedImagesPreview])
+  }
+
+  function handleDeletImage(index: number) {
+    const newImages = [...images]
+    newImages.splice(index, 1)
+    setImages(newImages)
+
+    const selectedImagesPreview = newImages.map(image =>
+      URL.createObjectURL(image)
+    )
+
+    setPreviewImages(selectedImagesPreview)
   }
 
   return (
@@ -127,19 +165,46 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
             gridTemplateColumns="repeat(5, 1fr)"
             gridGap={16}
             marginTop={2}
+            overflow="auto"
           >
-            {previewImages.map(image => (
-              <img
+            {previewImages.map((image, index) => (
+              <Box
                 key={image}
-                src={image}
-                alt={name}
-                style={{
-                  width: '100%',
-                  height: 96,
-                  objectFit: 'cover',
-                  borderRadius: '50%'
-                }}
-              />
+                position="relative"
+                width={1.0}
+                height={96}
+                minWidth={96}
+              >
+                <img
+                  src={image}
+                  alt={name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '50%'
+                  }}
+                />
+                <Box
+                  onClick={() => handleDeletImage(index)}
+                  position="absolute"
+                  top={0}
+                  right={0}
+                  className={classes.deletButton}
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius={20}
+                  padding={0.25}
+                  component="button"
+                  border="none"
+                >
+                  <CloseOutlined
+                    fontSize="small"
+                    className={classes.deletIcon}
+                  />
+                </Box>
+              </Box>
             ))}
 
             <label
