@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
+
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
@@ -9,7 +10,6 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import Slide from '@material-ui/core/Slide'
 import { TransitionProps } from '@material-ui/core/transitions'
-import DialogProps from '../../entities/DialogProps'
 import Select from '@material-ui/core/Select'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -17,10 +17,12 @@ import { Box, Fab } from '@material-ui/core'
 import CloseOutlined from '@material-ui/icons/CloseOutlined'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
-import { getCategorys } from '../../repository/CategorysRepository'
-import Category from '../../entities/Category'
-import { CreateProductRequest } from '../../repository/ProductsRepository'
-import { Height } from '@material-ui/icons'
+
+import { getCategorys } from '@data/repository/CategorysRepository'
+import { CreateProductRequest } from '@data/repository/ProductsRepository'
+
+import DialogProps from '@domain/entities/DialogProps'
+import Category from '@domain/entities/Category'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -64,9 +66,9 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   handleSuccess
 }) => {
   const [name, setName] = useState('')
-  const [price, setPrice] = useState<number>(0)
+  const [price, setPrice] = useState('')
   const [description, setDescription] = useState('')
-  const [category, setCategory] = useState<number>()
+  const [category, setCategory] = useState('')
   const [categoryOptions, setCategoryOptions] = useState<Category[]>([])
   const [images, setImages] = useState<File[]>([])
   const [previewImages, setPreviewImages] = useState<string[]>([])
@@ -83,15 +85,15 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   }, [])
 
   const handleCategoryChange = (
-    event: React.ChangeEvent<{ value: number }>
+    event: React.ChangeEvent<{ value: string }>
   ) => {
     setCategory(event.target.value)
   }
 
   const clearInput = () => {
     setName('')
-    setPrice()
-    setCategory()
+    setPrice('')
+    setCategory(null)
     setImages([])
     setPreviewImages([])
   }
@@ -109,9 +111,9 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
     const data: CreateProductRequest = {
       name,
       description,
-      price,
+      price: Number(price),
       quantity: 1,
-      category,
+      category: Number(category),
       photos: images
     }
 
@@ -121,6 +123,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   }
 
   function handleSelectImages(event: ChangeEvent<HTMLInputElement>) {
+    console.log()
     if (!event.target.files) {
       return
     }
@@ -249,7 +252,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
             label="Preço"
             type="number"
             value={price}
-            onChange={e => setPrice(Number(e.target.value))}
+            onChange={e => setPrice(e.target.value)}
             fullWidth
           />
           <FormControl className={classes.formControl}>

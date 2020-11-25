@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles } from '@material-ui/core'
-import ProductsList from '../components/products/ProductsList'
-import ProductToolbar from '../components/products/ProductsToolBar'
+
 import Head from 'next/head'
-import Product from '../entities/Product'
+
 import {
   getProducts,
-  createProducts,
   CreateProductRequest,
+  createProducts,
   deleteProducts
-} from '../repository/ProductsRepository'
-import AddProductDialog from '../components/products/AddProductDialog'
+} from '@data/repository/ProductsRepository'
+import Product from '@domain/entities/Product'
+import AddProductDialog from '@presentation/components/products/AddProductDialog'
+import ProductsList from '@presentation/components/products/ProductsList'
+import ProductToolBar from '@presentation/components/products/ProductsToolBar'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,7 +30,6 @@ const Products: React.FC = () => {
 
   const loadProducts = () => {
     getProducts().then(newProducts => {
-      console.log(newProducts)
       setProducts(newProducts)
     })
   }
@@ -59,7 +60,7 @@ const Products: React.FC = () => {
         <title>Produtos</title>
       </Head>
       <Container maxWidth={false}>
-        <ProductToolbar handleActionClicked={handleClickOpen} />
+        <ProductToolBar handleActionClicked={handleClickOpen} />
         <Box mt={3}>
           <ProductsList products={products} onDelete={onDelete} />
         </Box>

@@ -1,5 +1,5 @@
 import { Box, Container, makeStyles, Typography } from '@material-ui/core'
-import ProductToolbar from '../components/products/ProductsToolBar'
+
 import Head from 'next/head'
 
 const useStyles = makeStyles(theme => ({

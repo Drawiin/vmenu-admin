@@ -2,12 +2,11 @@ import Head from 'next/head'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AppProps } from 'next/dist/next-server/lib/router/router'
-import { useEffect } from 'react'
-import DashboardLayout from '../Layouts/DashboardLayout'
+import React, { useEffect } from 'react'
 import { SWRConfig } from 'swr'
-import ApiClient from '../services/ApiClient'
-
-import theme from '../styles/theme'
+import ApiClient from '@data/client/ApiClient'
+import theme from '@presentation/styles/theme'
+import DashboardLayout from '@presentation/layouts/DashboardLayout'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles } from '@material-ui/core'
-import ProductsList from '../components/tables/TablesList'
-import ClientToolbar from '../components/tables/TablesToolbar'
+import { getProducts } from '@data/repository/ProductsRepository'
+import Product from '@domain/entities/Product'
+import ProductsList from '@presentation/components/products/ProductsList'
+import ClientToolbar from '@presentation/components/tables/TablesToolbar'
 import Head from 'next/head'
-import Product from '../entities/Product'
-import { getProducts } from '../repository/ProductsRepository'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -34,7 +34,7 @@ const Tables: React.FC = () => {
       <Container maxWidth={false}>
         <ClientToolbar handleActionClicked={() => {}} />
         <Box mt={3}>
-          <ProductsList products={products} />
+          <ProductsList products={products} onDelete={() => {}} />
         </Box>
       </Container>
     </Box>

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles } from '@material-ui/core'
-import CategoryList from '../components/category/CategoryList'
-import CategoryToolbar from '../components/category/CategoryToolbar'
+
 import Head from 'next/head'
 import {
   getCategorys,
   createCategory,
   deletCategory
-} from '../repository/CategorysRepository'
-import AddCategoryDialog from '../components/category/AddCategoryDialog'
-import Category from '../entities/Category'
-
+} from '@data/repository/CategorysRepository'
+import Category from '@domain/entities/Category'
+import AddCategoryDialog from '@presentation/components/category/AddCategoryDialog'
+import CategoryList from '@presentation/components/category/CategoryList'
+import CategoryToolbar from '@presentation/components/products/ProductsToolBar'
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,

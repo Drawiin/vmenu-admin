@@ -1,5 +1,5 @@
-import Product from '../entities/Product'
-import ApiClient from '../services/ApiClient'
+import ApiClient from '@data/client/ApiClient'
+import Product from '@domain/entities/Product'
 
 export interface CreateProductRequest {
   name: string

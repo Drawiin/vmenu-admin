@@ -10,9 +10,9 @@ import {
   TablePagination,
   TableRow
 } from '@material-ui/core'
-import Category from '../../entities/Category'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
+import Category from '@domain/entities/Category'
 
 interface CategoryListProps {
   categorys: Array<Category>

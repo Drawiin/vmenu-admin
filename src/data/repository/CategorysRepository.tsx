@@ -1,5 +1,5 @@
-import Category from '../entities/Category'
-import ApiClient from '../services/ApiClient'
+import ApiClient from '@data/client/ApiClient'
+import Category from '@domain/entities/Category'
 
 export async function getCategorys(): Promise<Array<Category>> {
   const response = await ApiClient.get<Array<Category>>('categorys')

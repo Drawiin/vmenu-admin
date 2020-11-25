@@ -12,10 +12,8 @@ import {
   TableRow,
   makeStyles
 } from '@material-ui/core'
-import Product from '../../entities/Product'
-import { currencyConvertion } from '../../utils/Conversions'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
+import Product from '@domain/entities/Product'
+import { currencyConvertion } from '@presentation/utils/Conversions'
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -26,10 +24,9 @@ const useStyles = makeStyles(theme => ({
 
 interface ProductsListProps {
   products: Array<Product>
-  onDelete: (id: number) => void
 }
 
-const ProductsList: React.FC<ProductsListProps> = ({ products, onDelete }) => {
+const ProductsList: React.FC<ProductsListProps> = ({ products }) => {
   const classes = useStyles()
   const [limit, setLimit] = useState(5)
   const [page, setPage] = useState(0)
@@ -74,17 +71,7 @@ const ProductsList: React.FC<ProductsListProps> = ({ products, onDelete }) => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.description}</TableCell>
                     <TableCell>{currencyConvertion(product.price)}</TableCell>
-                    <TableCell>
-                      {' '}
-                      <IconButton
-                        color="primary"
-                        aria-label="delete"
-                        size="medium"
-                        onClick={() => onDelete(product.id)}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
+                    <TableCell>actions</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
