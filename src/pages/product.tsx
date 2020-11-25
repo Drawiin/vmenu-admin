@@ -3,16 +3,14 @@ import { Box, Container, makeStyles } from '@material-ui/core'
 
 import Head from 'next/head'
 
-import {
-  getProducts,
-  CreateProductRequest,
-  createProducts,
-  deleteProducts
-} from '@data/repository/ProductsRepository'
 import Product from '@domain/entities/Product'
 import AddProductDialog from '@presentation/components/products/AddProductDialog'
 import ProductsList from '@presentation/components/products/ProductsList'
 import ProductToolBar from '@presentation/components/products/ProductsToolBar'
+import CreateProductRequest from '@data/entities/CreateProductRequest'
+import CreateProduct from '@domain/usecases/products/CreateProduct'
+import GetProducts from '@domain/usecases/products/GetProducts'
+import DeleteProduct from '@domain/usecases/products/DeleteProduct'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,7 +27,7 @@ const Products: React.FC = () => {
   const [products, setProducts] = useState<Array<Product>>([])
 
   const loadProducts = () => {
-    getProducts().then(newProducts => {
+    GetProducts().then(newProducts => {
       setProducts(newProducts)
     })
   }
@@ -47,11 +45,11 @@ const Products: React.FC = () => {
   }
 
   const onSave = (product: CreateProductRequest) => {
-    createProducts(product).then(() => loadProducts())
+    CreateProduct(product).then(() => loadProducts())
   }
 
   const onDelete = (id: number) => {
-    deleteProducts(id).then(() => loadProducts())
+    DeleteProduct(id).then(() => loadProducts())
   }
 
   return (

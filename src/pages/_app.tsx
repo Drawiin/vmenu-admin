@@ -1,10 +1,11 @@
+import React, { useEffect } from 'react'
+
 import Head from 'next/head'
+import { AppProps } from 'next/dist/next-server/lib/router/router'
+
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { AppProps } from 'next/dist/next-server/lib/router/router'
-import React, { useEffect } from 'react'
-import { SWRConfig } from 'swr'
-import ApiClient from '@data/client/ApiClient'
+
 import theme from '@presentation/styles/theme'
 import DashboardLayout from '@presentation/layouts/DashboardLayout'
 
@@ -25,18 +26,12 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-      <SWRConfig
-        value={{
-          fetcher: url => ApiClient.get(url).then(res => res.data)
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <DashboardLayout>
-            <Component {...pageProps} />
-          </DashboardLayout>
-        </ThemeProvider>
-      </SWRConfig>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <DashboardLayout>
+          <Component {...pageProps} />
+        </DashboardLayout>
+      </ThemeProvider>
     </>
   )
 }

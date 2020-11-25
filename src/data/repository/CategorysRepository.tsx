@@ -2,29 +2,24 @@ import ApiClient from '@data/client/ApiClient'
 import Category from '@domain/entities/Category'
 
 export async function getCategorys(): Promise<Array<Category>> {
-  const response = await ApiClient.get<Array<Category>>('categorys')
-  return response.data
+  return ApiClient.getCategorys()
 }
 
 export async function show(id: number): Promise<Category> {
-  const response = await ApiClient.get<Category>(`categorys/${id}`)
-  return response.data
+  return ApiClient.getCategory(id)
 }
 
 export async function createCategory(name: string): Promise<Category> {
-  const response = await ApiClient.post<Category>('categorys', { name })
-  return response.data
+  return ApiClient.createCategory(name)
 }
 
 export async function updateCategory({
   name,
   id
 }: Category): Promise<Category> {
-  const response = await ApiClient.post<Category>(`categorys/${id}`, { name })
-  return response.data
+  return ApiClient.updateCategory(id, name)
 }
 
 export async function deletCategory(id: number): Promise<void> {
-  const response = await ApiClient.delete<void>(`categorys/${id}`)
-  return response.data
+  return ApiClient.deletCategory(id)
 }

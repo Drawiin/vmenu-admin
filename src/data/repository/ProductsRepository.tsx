@@ -1,44 +1,22 @@
 import ApiClient from '@data/client/ApiClient'
+import CreateProductRequest from '@data/entities/CreateProductRequest'
+import createFormData from '@data/utils/FormDataCreator'
 import Product from '@domain/entities/Product'
 
-export interface CreateProductRequest {
-  name: string
-  description: string
-  price: number
-  quantity: number
-  category: number
-  photos?: Array<File>
-}
 export async function getProducts(): Promise<Array<Product>> {
-  const response = await ApiClient.get<Array<Product>>('products')
-  return response.data
+  return ApiClient.getProducts()
 }
 
-export async function showProducts(id: number): Promise<Product> {
-  const response = await ApiClient.get<Product>(`products/${id}`)
-  return response.data
+export async function getProduct(id: number): Promise<Product> {
+  return ApiClient.getProduct(id)
 }
 
 export async function createProducts(
   product: CreateProductRequest
 ): Promise<Product> {
-  const { name, description, price, quantity, category, photos } = product
-  const data = new FormData()
-
-  data.append('name', name)
-  data.append('description', description)
-  data.append('price', String(price))
-  data.append('quantity', String(quantity))
-  data.append('category', String(category))
-
-  photos?.forEach(img => data.append('photos', img))
-
-  const response = await ApiClient.post<Product>('products', data)
-
-  return response.data
+  return ApiClient.createProduct(createFormData(product))
 }
 
-export async function deleteProducts(id: number): Promise<void> {
-  const response = await ApiClient.delete<void>(`products/${id}`)
-  return response.data
+export async function deleteProduct(id: number): Promise<void> {
+  return ApiClient.deleteProduct(id)
 }

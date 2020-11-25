@@ -19,10 +19,10 @@ import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 
 import { getCategorys } from '@data/repository/CategorysRepository'
-import { CreateProductRequest } from '@data/repository/ProductsRepository'
 
 import DialogProps from '@domain/entities/DialogProps'
 import Category from '@domain/entities/Category'
+import CreateProductRequest from '@data/entities/CreateProductRequest'
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & { children?: React.ReactElement<any, any> },
@@ -211,6 +211,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
               htmlFor="image[]"
               className="new-image"
               style={{
+                cursor: 'pointer',
                 width: '100%',
                 minWidth: 96,
                 height: 96,
