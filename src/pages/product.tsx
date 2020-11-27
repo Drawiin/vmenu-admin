@@ -23,8 +23,8 @@ const useStyles = makeStyles(theme => ({
 
 const Products: React.FC = () => {
   const [open, setOpen] = React.useState(false)
-  const classes = useStyles()
   const [products, setProducts] = useState<Array<Product>>([])
+  const classes = useStyles()
 
   const loadProducts = () => {
     GetProducts().then(newProducts => {

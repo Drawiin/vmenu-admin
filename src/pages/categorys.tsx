@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Box, Container, makeStyles } from '@material-ui/core'
 
 import Head from 'next/head'
-import {
-  getCategorys,
-  createCategory,
-  deletCategory
-} from '@data/repository/CategorysRepository'
 import Category from '@domain/entities/Category'
 import AddCategoryDialog from '@presentation/components/category/AddCategoryDialog'
 import CategoryList from '@presentation/components/category/CategoryList'
 import CategoryToolbar from '@presentation/components/products/ProductsToolBar'
+import GetCategorys from '@domain/usecases/categorys/GetCategorys'
+import CreateCategory from '@domain/usecases/categorys/CreateCategory'
+import DeletCategory from '@domain/usecases/categorys/DeletCategory'
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,
@@ -34,18 +32,18 @@ const Categorys: React.FC = () => {
   }
 
   const loadCategorys = () => {
-    getCategorys().then(newCategorys => {
+    GetCategorys().then(newCategorys => {
       console.log(newCategorys)
       setCategorys(newCategorys)
     })
   }
 
   const onSave = (name: string) => {
-    createCategory(name).then(() => loadCategorys())
+    CreateCategory(name).then(() => loadCategorys())
   }
 
   const onDelete = (id: number) => {
-    deletCategory(id).then(() => loadCategorys())
+    DeletCategory(id).then(() => loadCategorys())
   }
 
   useEffect(() => {
