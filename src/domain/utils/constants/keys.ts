@@ -1,0 +1,1 @@
+export const USER_ADMIN_KEY = 'USER_ADMIN_KEY'

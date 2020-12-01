@@ -1,6 +1,8 @@
 import Api from '@data/client/Api'
 import Category from '@domain/entities/Category'
 import Product from '@domain/entities/Product'
+import GetUser from '@domain/usecases/user/GetUser'
+import generateHeader from '@domain/utils/headers/indes'
 
 const ApiClient = {
   getCategorys: async function (): Promise<Array<Category>> {
@@ -12,7 +14,16 @@ const ApiClient = {
   },
 
   createCategory: async function (name: string): Promise<Category> {
-    return (await Api.post<Category>('categorys', { name })).data
+    const user = GetUser()
+    return (
+      await Api.post<Category>(
+        'categorys',
+        { name },
+        {
+          headers: generateHeader(user.privateKey, user.email)
+        }
+      )
+    ).data
   },
 
   updateCategory: async function (id: number, name: string): Promise<Category> {
@@ -20,7 +31,12 @@ const ApiClient = {
   },
 
   deletCategory: async function (id: number): Promise<void> {
-    return (await Api.delete<void>(`categorys/${id}`)).data
+    const user = GetUser()
+    return (
+      await Api.delete<void>(`categorys/${id}`, {
+        headers: generateHeader(user.privateKey, user.email)
+      })
+    ).data
   },
 
   getProducts: async function (): Promise<Array<Product>> {
@@ -32,11 +48,21 @@ const ApiClient = {
   },
 
   createProduct: async function (requestForm: FormData): Promise<Product> {
-    return (await Api.post<Product>('products', requestForm)).data
+    const user = GetUser()
+    return (
+      await Api.post<Product>('products', requestForm, {
+        headers: generateHeader(user.privateKey, user.email)
+      })
+    ).data
   },
 
   deleteProduct: async function (id: number): Promise<void> {
-    return (await Api.delete<void>(`products/${id}`)).data
+    const user = GetUser()
+    return (
+      await Api.delete<void>(`products/${id}`, {
+        headers: generateHeader(user.privateKey, user.email)
+      })
+    ).data
   }
 }
 

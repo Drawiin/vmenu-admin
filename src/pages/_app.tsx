@@ -1,3 +1,4 @@
+/* eslint-disable multiline-ternary */
 import React, { useEffect } from 'react'
 
 import Head from 'next/head'
@@ -9,7 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '@presentation/styles/theme'
 import DashboardLayout from '@presentation/layouts/DashboardLayout'
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
+const MyApp: React.FC<AppProps> = ({ Component, pageProps, router }) => {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {
@@ -28,9 +29,13 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <DashboardLayout>
+        {router.pathname.includes('/main') ? (
+          <DashboardLayout>
+            <Component {...pageProps} />
+          </DashboardLayout>
+        ) : (
           <Component {...pageProps} />
-        </DashboardLayout>
+        )}
       </ThemeProvider>
     </>
   )

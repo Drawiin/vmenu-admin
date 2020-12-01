@@ -24,22 +24,22 @@ const user = {
 
 const items: Array<NavItemProps> = [
   {
-    href: '/',
+    href: '/main/',
     icon: Home,
     title: 'Inicio'
   },
   {
-    href: '/categorys',
+    href: '/main/categorys',
     icon: Category,
     title: 'Categorias'
   },
   {
-    href: '/product',
+    href: '/main/product',
     icon: MenuBookOutlined,
     title: 'Produtos'
   },
   {
-    href: '/tables',
+    href: '/main/tables',
     icon: TableChartOutlined,
     title: 'Mesas'
   }

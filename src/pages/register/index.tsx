@@ -3,6 +3,7 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import MaterialLink from '@material-ui/core/Link'
+import Grid from '@material-ui/core/Grid'
 import Box from '@material-ui/core/Box'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
@@ -15,14 +16,15 @@ import ArrowBackIos from '@material-ui/icons/ArrowBackIos'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { decrypt, encrypt, hashPassword } from '@domain/utils/crypt'
-import Api from '@data/client/Api'
-import User from '@domain/entities/User'
-import SetUser from '@domain/usecases/user/SetUser'
 import { LoginForm } from '@domain/forms/LoginForm'
+import Api from '@data/client/Api'
+import { encrypt, hashPassword } from '@domain/utils/crypt'
+
+import keypair from 'keypair'
+import KeyPair from '@domain/forms/KeyPair'
+import User from '@domain/entities/User'
 import { CircularProgress } from '@material-ui/core'
-import { AxiosResponse } from 'axios'
-import AxiosLoginResponse from '@domain/entities/AxiosLoginResonse'
+import SetUser from '@domain/usecases/user/SetUser'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(3)
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -45,14 +47,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2)
   }
 }))
-
-const Login: React.FC = () => {
+const Register: React.FC = () => {
   const classes = useStyles()
   const router = useRouter()
   const [form, setForm] = useState<LoginForm>({
     email: '',
-    password: '',
-    name: ''
+    name: '',
+    password: ''
   })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -65,39 +66,44 @@ const Login: React.FC = () => {
     }))
   }
 
-  const handleLoginFormSubmit = async () => {
+  const handleRegisterFormSubmit = async () => {
     const hashedPassword = await hashPassword(form.password)
+    const { private: privateKey, public: publicKey } = keypair({
+      bits: 1024
+    }) as KeyPair
+    const encryptedPrivateKey = encrypt(form.password, privateKey)
 
     try {
-      const userResponse: AxiosResponse<AxiosLoginResponse> = await Api.get(
-        '/login',
+      const userResponse = await Api.post(
+        '/register',
+        {
+          name: form.name,
+          encryptedPrivateKey: encryptedPrivateKey,
+          publicKey
+        },
         {
           auth: {
             username: form.email,
             password: hashedPassword
           }
         }
-      ).catch(() => null)
+      )
 
       if (userResponse) {
-        const decryptedPrivateKey = decrypt(
-          form.password,
-          userResponse.data.encryptedPrivateKey
-        )
-
-        delete userResponse.data.encryptedPrivateKey
-
         const userData: User = {
-          ...userResponse.data,
-          privateKey: decryptedPrivateKey
+          email: form.email,
+          name: form.name,
+          privateKey,
+          publicKey
         }
+        console.log(userData)
         SetUser(userData)
         router.push('/main/')
       } else {
-        setError('Informações inválidas')
+        setError('Problemas na hora de criar a conta')
       }
     } catch (error) {
-      setError('Informações inválidas')
+      setError('Problemas na hora de criar a conta')
     }
   }
 
@@ -105,12 +111,12 @@ const Login: React.FC = () => {
     event.preventDefault()
     setLoading(true)
 
-    await handleLoginFormSubmit()
+    await handleRegisterFormSubmit()
 
     setForm({
       email: '',
-      password: '',
-      name: ''
+      name: '',
+      password: ''
     })
     setLoading(false)
     return null
@@ -123,47 +129,64 @@ const Login: React.FC = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Entrar
+          Criar conta
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            value={form.email}
-            onChange={handleChange}
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            value={form.password}
-            onChange={handleChange}
-            name="password"
-            label="Senha"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                value={form.name}
+                onChange={handleChange}
+                autoComplete="name"
+                name="name"
+                variant="outlined"
+                required
+                fullWidth
+                id="firstName"
+                label="Nome"
+                autoFocus
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={form.email}
+                onChange={handleChange}
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                value={form.password}
+                onChange={handleChange}
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+            </Grid>
+          </Grid>
           <Box style={{ color: 'red' }}>{error}</Box>
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
             disableElevation
+            className={classes.submit}
             disabled={loading}
             startIcon={loading && <CircularProgress size={16} />}
           >
-            Entrar
+            Criar conta
           </Button>
           <Box
             width={1.0}
@@ -171,8 +194,8 @@ const Login: React.FC = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Link href="/register">
-              <MaterialLink>{'Não tem uma conta ? Criar conta'}</MaterialLink>
+            <Link href="/">
+              <MaterialLink>{'Já tem uma conta ? Entrar'}</MaterialLink>
             </Link>
           </Box>
         </form>
@@ -180,5 +203,4 @@ const Login: React.FC = () => {
     </Container>
   )
 }
-
-export default Login
+export default Register

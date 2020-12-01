@@ -28,6 +28,7 @@ const Products: React.FC = () => {
 
   const loadProducts = () => {
     GetProducts().then(newProducts => {
+      console.log(newProducts)
       setProducts(newProducts)
     })
   }

@@ -1,4 +1,4 @@
-const imageKeys = ['photos']
+const imageKeys = 'photos'
 
 export default function createFormData(fiels: {
   [key: string]: any
@@ -6,7 +6,9 @@ export default function createFormData(fiels: {
   const formData = new FormData()
 
   Object.entries(fiels).forEach(([key, value]) => {
-    if (key in imageKeys) {
+    console.log(key, value)
+    if (key === imageKeys) {
+      console.log(key, value)
       const files = value as File[]
       files.forEach(file => formData.append(key, file))
     } else {

@@ -93,7 +93,7 @@ const AddProductDialog: React.FC<AddProductDialogProps> = ({
   const clearInput = () => {
     setName('')
     setPrice('')
-    setCategory(null)
+    setCategory('')
     setImages([])
     setPreviewImages([])
   }
