@@ -5,10 +5,11 @@ import Head from 'next/head'
 import Category from '@domain/entities/Category'
 import AddCategoryDialog from '@presentation/components/category/AddCategoryDialog'
 import CategoryList from '@presentation/components/category/CategoryList'
-import CategoryToolbar from '@presentation/components/products/ProductsToolBar'
+
 import GetCategorys from '@domain/usecases/categorys/GetCategorys'
 import CreateCategory from '@domain/usecases/categorys/CreateCategory'
 import DeletCategory from '@domain/usecases/categorys/DeletCategory'
+import CategoryToolbar from '@presentation/components/category/CategoryToolbar'
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.default,

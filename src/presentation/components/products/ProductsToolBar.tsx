@@ -14,7 +14,7 @@ interface ToolbarProps {
   handleActionClicked: () => void
 }
 
-const CategoryToolbar: React.FC<ToolbarProps> = ({ handleActionClicked }) => {
+const ProductToolbar: React.FC<ToolbarProps> = ({ handleActionClicked }) => {
   return (
     <>
       <Box display="flex" justifyContent="flex-end">
@@ -52,4 +52,4 @@ const CategoryToolbar: React.FC<ToolbarProps> = ({ handleActionClicked }) => {
   )
 }
 
-export default CategoryToolbar
+export default ProductToolbar

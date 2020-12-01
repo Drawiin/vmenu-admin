@@ -11,6 +11,8 @@ import MenuIcon from '@material-ui/icons/Menu'
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined'
 import InputIcon from '@material-ui/icons/Input'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
+import SetUser from '@domain/usecases/user/SetUser'
 
 interface TopBarProps {
   onMobileNavOpen: () => void
@@ -18,6 +20,7 @@ interface TopBarProps {
 
 const TopBar: React.FC<TopBarProps> = ({ onMobileNavOpen }) => {
   const [notifications] = useState([])
+  const router = useRouter()
 
   return (
     <AppBar elevation={0}>
@@ -25,16 +28,13 @@ const TopBar: React.FC<TopBarProps> = ({ onMobileNavOpen }) => {
         <Image src="/logo.png" height="34" width="64" />
         <Box flexGrow={1} />
         <Hidden mdDown>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={notifications.length}
-              color="primary"
-              variant="dot"
-            >
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <IconButton color="inherit">
+          <IconButton
+            color="inherit"
+            onClick={() => {
+              SetUser(null)
+              router.push('/')
+            }}
+          >
             <InputIcon />
           </IconButton>
         </Hidden>
